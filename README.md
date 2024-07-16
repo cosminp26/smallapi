@@ -43,6 +43,7 @@ This is my task regarding the XM interviews. It uses FastAPI and other dependenc
 ## Usage
 
 Once the Docker container is running, you can access the application by navigating to `http://localhost:5734` in your web browser or using tools like `curl` or Postman to interact with the API.
+Swagger can be found at http://localhost:5734/docs
 
 ## Dependencies
 

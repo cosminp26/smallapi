@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import random
 import asyncio
 import uuid
+import uvicorn
 from typing import Dict, List
 
 app = FastAPI()
@@ -19,7 +20,7 @@ html = """
         <ul id='messages'>
         </ul>
         <script>
-            var ws = new WebSocket("ws://localhost:8000/ws");
+            var ws = new WebSocket("ws://0.0.0.0:5734/ws");
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages')
                 var message = document.createElement('li')
@@ -177,3 +178,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         # Disconnect the client on WebSocket disconnection
         manager.disconnect(websocket)
+
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='0.0.0.0', port=5734)

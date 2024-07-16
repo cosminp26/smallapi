@@ -80,14 +80,19 @@ def test_delete_nonexistent_order():
     assert response.status_code == 404
 
 
-def test_simple_websocket():
+def test_websocket():
+    messages = []
     with client.websocket_connect("/ws") as websocket:
         order = client.post("/orders")
 
         # Receive the initial status update
-        message = websocket.receive_json()
-        assert message["orderId"] == order.json()["id"]
-        assert message["status"] == "EXECUTED"
+        for _ in range(2):
+            message = websocket.receive_json()
+            if message["orderId"] == order.json()["id"]:
+                messages.append(message)
+        assert len(messages) == 2
+        assert messages[0]["status"] == "PENDING"
+        assert messages[1]["status"] == "EXECUTED"
 
 
 @pytest.mark.asyncio
@@ -113,21 +118,3 @@ async def test_performance():
 
         print(f"\nAverage Order Execution Delay: {avg_orders_execution_delay:.4f} seconds")
         print(f"Standard Deviation: {std_deviation:.4f} seconds")
-
-
-def test_simple():
-    with client.websocket_connect("/ws") as websocket:
-        statuses = []
-        tries = 0
-        order = client.post("/orders")
-
-        while tries < 2:
-            message = websocket.receive_json()
-            if message["orderId"] == order.json()["id"]:
-                statuses.append(message["status"])
-                print(f"Received status: {message['status']}")
-            tries += 1
-
-        assert statuses[0] == "PENDING"
-        assert statuses[1] == "EXECUTED"
-        print(f"Order {order.json()["id"]} statuses: {statuses}")
