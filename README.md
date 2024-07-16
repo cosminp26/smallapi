@@ -18,8 +18,8 @@ This is my task regarding the XM interviews. It uses FastAPI and other dependenc
 1. **Clone the repository**:
 
     ```bash
-    git clone <repository-url>
-    cd <repository-name>
+    git clone <https://github.com/cosminp26/smallapi>
+    cd <smallapi>
     ```
 
 2. **Build the Docker image**:
@@ -31,7 +31,7 @@ This is my task regarding the XM interviews. It uses FastAPI and other dependenc
 3. **Run the Docker container**:
 
     ```bash
-    docker run -p 80:80 my-python-app
+    docker run -p 5734:5734 my-python-app
     ```
 
 4. **Run tests** (optional):
